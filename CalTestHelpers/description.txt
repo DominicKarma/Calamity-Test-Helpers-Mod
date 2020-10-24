@@ -1,0 +1,10 @@
+Calamity-based testing mod that provides various services, such as:
+
+A GUI that provides certain utilities, such as revealing the entire map, setting your spawnpoint at your current location,
+toggling permanent upgrades and deaths, toggling enemy spawns, and proficiency manipulation,
+
+Infinite Money in your first coin slot,
+
+Map-based teleportation
+
+and a game-time based boss kill timer.
