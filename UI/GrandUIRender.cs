@@ -13,7 +13,7 @@ namespace CalTestHelpers.UI
 		public virtual List<SpecialUIElement> UIElements => new List<SpecialUIElement>()
 		{
 			new SpecialUIElement("Reveal the entire map.", ModContent.GetTexture("CalTestHelpers/UI/EyeTexture"), MapServices.RevealTheEntireMap),
-			new SpecialUIElement("Set your spawn point to your position.", Main.itemTexture[Terraria.ID.ItemID.GoldenBed], () =>
+			new SpecialUIElement("Set your spawn point to your position.", Main.itemTexture[ItemID.GoldenBed], () =>
 			{
 				Main.spawnTileX = (int)(Main.LocalPlayer.position.X - 8 + Main.LocalPlayer.width / 2) / 16;
 				Main.spawnTileY = (int)(Main.LocalPlayer.position.Y + Main.LocalPlayer.height) / 16;
