@@ -9,7 +9,7 @@ namespace CalTestHelpers
 	public class CalTestHelpers : Mod
 	{
 		public static Mod Calamity = null;
-		public static bool ShouldDisplayUIs = true;
+		public static bool ShouldDisplayUIs = false;
 		public static GrandUIRender UltimateUI = new GrandUIRender();
 		public static BossDeathUIRenderer BossUIRender = new BossDeathUIRenderer();
 		public static PermanentUpgradeUIRenderer UpgradeUIRenderer = new PermanentUpgradeUIRenderer();

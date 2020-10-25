@@ -92,6 +92,7 @@ namespace CalTestHelpers.UI
 			new SpecialUIElement("Toggle The Ceasless Void's Death.", ModContent.GetTexture("CalamityMod/NPCs/CeaselessVoid/CeaselessVoid_Head_Boss"), () => ToggleDeath(Boss.CeaselessVoid)),
 			new SpecialUIElement("Toggle The Storm Weaver's Death.", ModContent.GetTexture("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked_Head_Boss"), () => ToggleDeath(Boss.StormWeaver)),
 			new SpecialUIElement("Toggle Signus' Death.", ModContent.GetTexture("CalamityMod/NPCs/Signus/Signus_Head_Boss"), () => ToggleDeath(Boss.Signus)),
+			new SpecialUIElement("Toggle The Polterghast's Death.", ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Polterghast_Head_Boss"), () => ToggleDeath(Boss.Polterghast)),
 			new SpecialUIElement("Toggle The Old Duke's Death.", ModContent.GetTexture("CalamityMod/NPCs/OldDuke/OldDuke_Head_Boss"), () => ToggleDeath(Boss.OldDuke)),
 			new SpecialUIElement("Toggle The Devourer of Gods' Death.", ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS_Head_Boss"), () => ToggleDeath(Boss.DevourerOfGods)),
 			new SpecialUIElement("Toggle Darksun Mothron's Death.", ModContent.GetTexture("CalTestHelpers/UI/EclipseTexture"), () => ToggleDeath(Boss.DarksunMothron)),
@@ -101,7 +102,7 @@ namespace CalTestHelpers.UI
 		};
 		public override float UIScale => 0.75f * ResolutionRatio;
 
-		public override Vector2 TopLeftLocation => new Vector2(Main.screenWidth - 660 - 270 * ResolutionRatio, 40);
+		public override Vector2 TopLeftLocation => new Vector2(Main.screenWidth - 660 - 270 * ResolutionRatio, 5);
 
 		public static void ToggleDeath(Boss bossDeathToToggle)
 		{
@@ -289,6 +290,11 @@ namespace CalTestHelpers.UI
 					bossName = "Signus";
 					textColor = new Color(143, 101, 228);
 					bossDeathValue = ref CalamityWorld.downedSentinel3;
+					break;
+				case Boss.Polterghast:
+					bossName = "Polterghast";
+					textColor = new Color(35, 200, 254);
+					bossDeathValue = ref CalamityWorld.downedPolterghast;
 					break;
 				case Boss.OldDuke:
 					bossName = "The Old Duke";
