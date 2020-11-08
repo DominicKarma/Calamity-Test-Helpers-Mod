@@ -83,6 +83,7 @@ namespace CalTestHelpers.UI
 			new SpecialUIElement("Toggle Golem's Death.", Main.npcHeadBossTexture[5], () => ToggleDeath(Boss.Golem)),
 			new SpecialUIElement("Toggle The Plaguebringer Goliath's Death.", ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliath_Head_Boss"), () => ToggleDeath(Boss.PlaguebringerGoliath)),
 			new SpecialUIElement("Toggle Duke Fishron's Death.", Main.npcHeadBossTexture[4], () => ToggleDeath(Boss.DukeFishron)),
+			new SpecialUIElement("Toggle The Ravager's Death.", ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBody_Head_Boss"), () => ToggleDeath(Boss.Ravager)),
 			new SpecialUIElement("Toggle The Lunatic Cultist's Death.", Main.npcHeadBossTexture[31], () => ToggleDeath(Boss.LunaticCultist)),
 			new SpecialUIElement("Toggle Astrum Deus' Death.", ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadSpectral_Head_Boss"), () => ToggleDeath(Boss.AstrumDeus)),
 			new SpecialUIElement("Toggle The Moon Lord's Death.", Main.npcHeadBossTexture[8], () => ToggleDeath(Boss.MoonLord)),
@@ -100,7 +101,7 @@ namespace CalTestHelpers.UI
 			new SpecialUIElement("Toggle Supreme Calamitas' Death.", ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas_Head_Boss"), () => ToggleDeath(Boss.SupremeCalamitas)),
 			new SpecialUIElement("Toggle every boss' Death.", ModContent.GetTexture("CalamityMod/Items/DifficultyItems/Death"), () => ToggleDeath(Boss.All)),
 		};
-		public override float UIScale => 0.75f * ResolutionRatio;
+		public override float UIScale => 0.65f * ResolutionRatio;
 
 		public override Vector2 TopLeftLocation => new Vector2(Main.screenWidth - 660 - 270 * ResolutionRatio, 5);
 
