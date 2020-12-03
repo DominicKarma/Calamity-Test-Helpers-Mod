@@ -54,8 +54,8 @@ namespace CalTestHelpers
 			{
 				string timeString = TimeSpan.FromSeconds(BossKillTimeFrames / 60f).ToString(@"hh\:mm\:ss");
 				string textToDisplay = $"Time Elapsed: {timeString}\n" +
-									   $"Average DPS: {BossKillDPS.Average() }\n" +
-									   $"Maximum DPS: {BossKillDPS.Max()}";
+									   $"Average DPS: {(BossKillDPS.Count == 0 ? 0f : BossKillDPS.Average())}\n" +
+									   $"Maximum DPS: {(BossKillDPS.Count == 0 ? 0f : BossKillDPS.Max())}";
 
 				// Newlines fuck text displays up.
 				foreach (var snippet in textToDisplay.Split('\n'))
