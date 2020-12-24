@@ -14,6 +14,7 @@ namespace CalTestHelpers
 		public static BossDeathUIRenderer BossUIRender = new BossDeathUIRenderer();
 		public static PermanentUpgradeUIRenderer UpgradeUIRenderer = new PermanentUpgradeUIRenderer();
 		public static ProficiencyManipulatorUIRender ProficiencyUIRenderer = new ProficiencyManipulatorUIRender();
+		public static List<SpecialUIElement> SecondaryUIElements = new List<SpecialUIElement>();
 
 		public static GrandUIRender SecondaryUIToDisplay;
 
@@ -28,6 +29,21 @@ namespace CalTestHelpers
 		{
 			ToggleUIsHotkey = null;
 			Calamity = null;
+		}
+
+		public override object Call(params object[] args)
+		{
+			if (args.Length >= 2 && args[0] is string command)
+			{
+				switch (command.ToLower())
+				{
+					case "addtograndui":
+						if (args[1] is SpecialUIElement renderer)
+							SecondaryUIElements.Add(renderer);
+						break;
+				}
+			}
+			return null;
 		}
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)

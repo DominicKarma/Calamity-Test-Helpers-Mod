@@ -10,51 +10,72 @@ namespace CalTestHelpers.UI
 {
 	public class GrandUIRender
 	{
-		public virtual List<SpecialUIElement> UIElements => new List<SpecialUIElement>()
+		public virtual List<SpecialUIElement> UIElements
 		{
-			new SpecialUIElement("Reveal the entire map.", ModContent.GetTexture("CalTestHelpers/UI/EyeTexture"), MapServices.RevealTheEntireMap),
-			new SpecialUIElement("Set your spawn point to your position.", Main.itemTexture[ItemID.GoldenBed], () =>
+			get
 			{
-				Main.spawnTileX = (int)(Main.LocalPlayer.position.X - 8 + Main.LocalPlayer.width / 2) / 16;
-				Main.spawnTileY = (int)(Main.LocalPlayer.position.Y + Main.LocalPlayer.height) / 16;
-				Main.NewText($"Spawn point set. Your new spawn point is: { new Vector2(Main.spawnTileX, Main.spawnTileY) }");
-			}),
-			new SpecialUIElement("Toggle enemy spawns.", ModContent.GetTexture("CalTestHelpers/UI/EnemyIcon"), () =>
-			{
-				CalTestHelpersWorld.NoSpawns = !CalTestHelpersWorld.NoSpawns;
-				if (CalTestHelpersWorld.NoSpawns)
+				List<SpecialUIElement> elements = new List<SpecialUIElement>()
 				{
-					for (int i = 0; i < Main.maxNPCs; i++)
+					new SpecialUIElement("Reveal the entire map.", ModContent.GetTexture("CalTestHelpers/UI/EyeTexture"), MapServices.RevealTheEntireMap),
+					new SpecialUIElement("Set your spawn point to your position.", Main.itemTexture[ItemID.GoldenBed], () =>
 					{
-						bool isPillar = Main.npc[i].type == NPCID.LunarTowerNebula ||
-										Main.npc[i].type == NPCID.LunarTowerSolar ||
-										Main.npc[i].type == NPCID.LunarTowerStardust ||
-										Main.npc[i].type == NPCID.LunarTowerVortex;
-						if (isPillar)
-							continue;
-						if (Main.npc[i] != null && !Main.npc[i].townNPC)
+						Main.spawnTileX = (int)(Main.LocalPlayer.position.X - 8 + Main.LocalPlayer.width / 2) / 16;
+						Main.spawnTileY = (int)(Main.LocalPlayer.position.Y + Main.LocalPlayer.height) / 16;
+						Main.NewText($"Spawn point set. Your new spawn point is: { new Vector2(Main.spawnTileX, Main.spawnTileY) }");
+					}),
+					new SpecialUIElement("Toggle enemy spawns.", ModContent.GetTexture("CalTestHelpers/UI/EnemyIcon"), () =>
+					{
+						CalTestHelpersWorld.NoSpawns = !CalTestHelpersWorld.NoSpawns;
+						if (CalTestHelpersWorld.NoSpawns)
 						{
-							Main.npc[i].life = 0;
-							if (Main.netMode == NetmodeID.Server)
-								NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i, 0f, 0f, 0f, 0);
+							for (int i = 0; i < Main.maxNPCs; i++)
+							{
+								bool isPillar = Main.npc[i].type == NPCID.LunarTowerNebula ||
+												Main.npc[i].type == NPCID.LunarTowerSolar ||
+												Main.npc[i].type == NPCID.LunarTowerStardust ||
+												Main.npc[i].type == NPCID.LunarTowerVortex;
+								if (isPillar)
+									continue;
+								if (Main.npc[i] != null && !Main.npc[i].townNPC)
+								{
+									Main.npc[i].life = 0;
+									if (Main.netMode == NetmodeID.Server)
+										NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i, 0f, 0f, 0f, 0);
+								}
+							}
 						}
-					}
-				}
-				Main.NewText($"Enemies now { (CalTestHelpersWorld.NoSpawns ? "cannot" : "can") } spawn.");
-			}),
-			new SpecialUIElement("Toggle boss deaths.", ModContent.GetTexture("CalTestHelpers/UI/Blades"), () =>
-			{
-				CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.BossUIRender : null;
-			}),
-			new SpecialUIElement("Toggle permanent upgrades.", ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/BloodOrange"), () =>
-			{
-				CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.UpgradeUIRenderer : null;
-			}),
-			new SpecialUIElement("Update proficiency.", ModContent.GetTexture("CalTestHelpers/UI/UpwardBoost"), () =>
-			{
-				CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.ProficiencyUIRenderer : null;
-			}),
-		};
+						Main.NewText($"Enemies now { (CalTestHelpersWorld.NoSpawns ? "cannot" : "can") } spawn.");
+					}),
+					new SpecialUIElement("Change the time.", ModContent.GetTexture("CalTestHelpers/UI/SunTexture"), () =>
+					{
+						Main.dayTime = !Main.dayTime;
+						Main.time = 0;
+						
+						Main.NewText($"It is now {(Main.dayTime ? "day" : "night")}time.");
+					}),
+					new SpecialUIElement("Stop time.", ModContent.GetTexture("CalTestHelpers/UI/WatchTexture"), () =>
+					{
+						CalTestHelpersWorld.FrozenTime = !CalTestHelpersWorld.FrozenTime;
+						Main.NewText($"Time has {(CalTestHelpersWorld.FrozenTime ? "stopped" : "resumed")}.");
+					}),
+					new SpecialUIElement("Toggle boss deaths.", ModContent.GetTexture("CalTestHelpers/UI/Blades"), () =>
+					{
+						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.BossUIRender : null;
+					}),
+					new SpecialUIElement("Toggle permanent upgrades.", ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/BloodOrange"), () =>
+					{
+						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.UpgradeUIRenderer : null;
+					}),
+					new SpecialUIElement("Update proficiency.", ModContent.GetTexture("CalTestHelpers/UI/UpwardBoost"), () =>
+					{
+						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.ProficiencyUIRenderer : null;
+					}),
+				};
+
+				elements.AddRange(CalTestHelpers.SecondaryUIElements);
+				return elements;
+			}
+		}
 
 		public float ResolutionRatio => Main.screenWidth / 2560f;
 

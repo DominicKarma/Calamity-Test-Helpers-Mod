@@ -51,7 +51,6 @@ namespace CalTestHelpers.UI
 			Polterghast,
 			OldDuke,
 			DevourerOfGods,
-			DarksunMothron,
 			Yharon,
 			SupremeCalamitas,
 			All
@@ -96,7 +95,6 @@ namespace CalTestHelpers.UI
 			new SpecialUIElement("Toggle The Polterghast's Death.", ModContent.GetTexture("CalamityMod/NPCs/Polterghast/Polterghast_Head_Boss"), () => ToggleDeath(Boss.Polterghast)),
 			new SpecialUIElement("Toggle The Old Duke's Death.", ModContent.GetTexture("CalamityMod/NPCs/OldDuke/OldDuke_Head_Boss"), () => ToggleDeath(Boss.OldDuke)),
 			new SpecialUIElement("Toggle The Devourer of Gods' Death.", ModContent.GetTexture("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS_Head_Boss"), () => ToggleDeath(Boss.DevourerOfGods)),
-			new SpecialUIElement("Toggle Darksun Mothron's Death.", ModContent.GetTexture("CalTestHelpers/UI/EclipseTexture"), () => ToggleDeath(Boss.DarksunMothron)),
 			new SpecialUIElement("Toggle Yharon's Death.", ModContent.GetTexture("CalamityMod/NPCs/Yharon/Yharon_Head_Boss"), () => ToggleDeath(Boss.Yharon)),
 			new SpecialUIElement("Toggle Supreme Calamitas' Death.", ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas_Head_Boss"), () => ToggleDeath(Boss.SupremeCalamitas)),
 			new SpecialUIElement("Toggle every boss' Death.", ModContent.GetTexture("CalamityMod/Items/DifficultyItems/Death"), () => ToggleDeath(Boss.All)),
@@ -307,11 +305,6 @@ namespace CalTestHelpers.UI
 					textColor = new Color(0, 255, 255);
 					bossDeathValue = ref CalamityWorld.downedDoG;
 					break;
-				case Boss.DarksunMothron:
-					bossName = "Darksun Mothron";
-					textColor = new Color(255, 136, 0);
-					bossDeathValue = ref CalamityWorld.downedBuffedMothron;
-					break;
 				case Boss.Yharon:
 					bossName = "Yharon";
 					textColor = new Color(255, 182, 55);
@@ -348,7 +341,7 @@ namespace CalTestHelpers.UI
 			CalamityWorld.downedGuardians = CalamityWorld.downedBumble = CalamityWorld.downedProvidence = !killAll;
 			CalamityWorld.downedSentinel1 = CalamityWorld.downedSentinel2 = CalamityWorld.downedSentinel3 = !killAll;
 			CalamityWorld.downedPolterghast = CalamityWorld.downedBoomerDuke = CalamityWorld.downedDoG = !killAll;
-			CalamityWorld.downedYharon = CalamityWorld.downedBuffedMothron = CalamityWorld.downedSCal = !killAll;
+			CalamityWorld.downedYharon = CalamityWorld.downedSCal = !killAll;
 		}
 	}
 }

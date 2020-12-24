@@ -15,30 +15,40 @@ namespace CalTestHelpers
 {
 	public class CalTestHelpersWorld : ModWorld
 	{
+		public static int OriginalTime;
 		public static int BossKillTimeFrames;
 		public static bool NoSpawns = false;
+		public static bool FrozenTime = false;
 		public static List<int> BossKillDPS = new List<int>();
 		public override TagCompound Save()
 		{
 			return new TagCompound()
 			{
-				["NoSpawns"] = NoSpawns
+				["NoSpawns"] = NoSpawns,
+				["FrozenTime"] = FrozenTime
 			};
 		}
 		public override void Load(TagCompound tag)
 		{
-			NoSpawns = tag.ContainsKey("NoSpawns");
+			NoSpawns = tag.GetBool("NoSpawns");
+			FrozenTime = tag.GetBool("FrozenTime");
 		}
 		public override void NetSend(BinaryWriter writer)
 		{
 			writer.Write(NoSpawns);
+			writer.Write(FrozenTime);
 		}
 		public override void NetReceive(BinaryReader reader)
 		{
 			NoSpawns = reader.ReadBoolean();
+			FrozenTime = reader.ReadBoolean();
 		}
+
 		public override void PostUpdate()
 		{
+			if (FrozenTime && Main.netMode == NetmodeID.SinglePlayer)
+				Main.time -= Main.dayRate;
+
 			bool anyMiscEventsGoingOn = (bool)CalTestHelpers.Calamity.Call("Difficulty", "bossrush") || CalamityWorld.DoGSecondStageCountdown > 0;
 			if (CalamityPlayer.areThereAnyDamnBosses || anyMiscEventsGoingOn)
 			{
