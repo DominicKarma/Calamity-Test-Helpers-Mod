@@ -328,7 +328,7 @@ namespace CalTestHelpers.UI
 			{
 				killAll = true;
 			}
-			Main.NewText($"All bosses are now marked as {(killAll ? "dead" : "alive")}", Color.Red);
+			Main.NewText($"All bosses are now marked as {(killAll ? "alive" : "dead")}", Color.Red);
 
 			NPC.downedSlimeKing = CalamityWorld.downedDesertScourge = NPC.downedBoss1 = !killAll;
 			CalamityWorld.downedCrabulon = NPC.downedBoss2 = CalamityWorld.downedHiveMind = CalamityWorld.downedPerforator = !killAll;
