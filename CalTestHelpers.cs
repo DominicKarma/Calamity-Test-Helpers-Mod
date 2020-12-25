@@ -53,7 +53,7 @@ namespace CalTestHelpers
 			{
 				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", () =>
 				{
-					if (!Main.inFancyUI)
+					if (!Main.inFancyUI && Main.playerInventory)
 					{
 						UltimateUI.Draw(Main.spriteBatch);
 						if (SecondaryUIToDisplay != null)
