@@ -50,7 +50,7 @@ namespace CalTestHelpers
 				Main.time -= Main.dayRate;
 
 			bool anyMiscEventsGoingOn = (bool)CalTestHelpers.Calamity.Call("Difficulty", "bossrush") || CalamityWorld.DoGSecondStageCountdown > 0;
-			if (CalamityPlayer.areThereAnyDamnBosses || anyMiscEventsGoingOn)
+			if ((CalamityPlayer.areThereAnyDamnBosses || anyMiscEventsGoingOn) && !Main.LocalPlayer.dead)
 			{
 				BossKillTimeFrames++;
 
