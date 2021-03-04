@@ -317,6 +317,7 @@ namespace CalTestHelpers.UI
 					break;
 			}
 			bossDeathValue = !bossDeathValue;
+			NPC.downedMechBossAny = NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3;
 			string bossRefernceText = bossName.Last() == 's' ? bossName + "'" : bossName + "'s";
 			Main.NewText($"{bossRefernceText} death is now marked as: {bossDeathValue}", textColor);
 		}
@@ -342,6 +343,7 @@ namespace CalTestHelpers.UI
 			CalamityWorld.downedSentinel1 = CalamityWorld.downedSentinel2 = CalamityWorld.downedSentinel3 = !killAll;
 			CalamityWorld.downedPolterghast = CalamityWorld.downedBoomerDuke = CalamityWorld.downedDoG = !killAll;
 			CalamityWorld.downedYharon = CalamityWorld.downedSCal = !killAll;
+			NPC.downedMechBossAny = !killAll;
 		}
 	}
 }
