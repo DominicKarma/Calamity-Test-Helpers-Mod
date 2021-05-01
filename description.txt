@@ -5,6 +5,10 @@ toggling permanent upgrades and deaths, toggling enemy spawns, and proficiency m
 
 Infinite Money in your first coin slot,
 
-Map-based teleportation
+Map-based teleportation,
+
+Item damage, useTime, and useAnimation manipulation,
+
+Projectile i-frame manipulation,
 
 and a game-time based boss kill timer.

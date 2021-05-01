@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalTestHelpers.UI
 {
-	public class BossDeathUIRenderer : GrandUIRender
+	public class BossDeathUIRenderer : GrandUIRenderer
 	{
 		public enum Boss
 		{

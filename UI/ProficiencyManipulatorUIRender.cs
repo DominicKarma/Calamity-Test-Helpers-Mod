@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalTestHelpers.UI
 {
-	public class ProficiencyManipulatorUIRender : GrandUIRender
+	public class ProficiencyManipulatorUIRender : GrandUIRenderer
 	{
 		public enum ProficiencyClass
 		{

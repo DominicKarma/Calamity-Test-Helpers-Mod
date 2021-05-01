@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalTestHelpers.UI
 {
-	public class PermanentUpgradeUIRenderer : GrandUIRender
+	public class PermanentUpgradeUIRenderer : GrandUIRenderer
 	{
 		public enum PlayerUpgrade
 		{

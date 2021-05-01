@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalTestHelpers.UI
 {
-	public class GrandUIRender
+	public class GrandUIRenderer
 	{
 		public virtual List<SpecialUIElement> UIElements
 		{
@@ -70,6 +70,24 @@ namespace CalTestHelpers.UI
 					{
 						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.ProficiencyUIRenderer : null;
 					}),
+					new SpecialUIElement("Change item stats.", ModContent.GetTexture("CalTestHelpers/UI/UpwardBoost"), () =>
+					{
+						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.ItemEditerUIRenderer : null;
+					}),
+					new SpecialUIElement("Change projectile stats.", ModContent.GetTexture("CalTestHelpers/UI/UpwardBoost"), () =>
+					{
+						CalTestHelpers.SecondaryUIToDisplay = CalTestHelpers.SecondaryUIToDisplay is null ? CalTestHelpers.ProjectileEditerUIRenderer : null;
+					}),
+					new SpecialUIElement("Reset changed stats.", ModContent.GetTexture("CalTestHelpers/UI/UpwardBoost"), () =>
+					{
+						ItemOverrideCache.ResetOverrides();
+						ProjectileOverrideCache.ResetOverrides();
+						CalTestHelpers.ItemEditerUIRenderer.ItemBeingEdited = null;
+						CalTestHelpers.ProjectileEditerUIRenderer.ProjectileBeingEdited = null;
+						CalTestHelpers.SecondaryUIToDisplay = null;
+						CalTestHelpers.HaveAnyStatManipulationsBeenDone = false;
+						Main.NewText($"Stat changes have been reset.");
+					}),
 				};
 
 				elements.AddRange(CalTestHelpers.SecondaryUIElements);
@@ -87,35 +105,13 @@ namespace CalTestHelpers.UI
 
 		public virtual Vector2 IconBounds => new Vector2(44f * UIScale);
 
-		public void Draw(SpriteBatch spriteBatch)
+		public virtual void DrawElements(SpriteBatch spriteBatch, float top)
 		{
-			float yArea = TopLeftLocation.Y;
 			Texture2D categorySlotTexture = ModContent.GetTexture("CalTestHelpers/UI/CategorySlot");
-			if (GetType() == typeof(GrandUIRender))
-			{
-				Texture2D toggleIcon = ModContent.GetTexture("CalTestHelpers/UI/GrandUIToggle");
-				Rectangle currentRectangleArea = new Rectangle((int)TopLeftLocation.X, (int)(yArea - 44 * ResolutionRatio), (int)IconBounds.X, (int)IconBounds.Y);
-				Rectangle currentRectangleAreaWorld = new Rectangle((int)(TopLeftLocation.X + Main.screenPosition.X), (int)(currentRectangleArea.Y + Main.screenPosition.Y), (int)IconBounds.X, (int)IconBounds.Y);
-				spriteBatch.Draw(toggleIcon, currentRectangleArea.Center(), null, Color.White, 0f, toggleIcon.Size() * 0.5f, ResolutionRatio * 0.6f, SpriteEffects.None, 0f);
-
-				if (CalamityUtils.MouseHitbox.Intersects(currentRectangleAreaWorld))
-				{
-					// Activate the event if the button is pressed.
-					Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-					if (Main.mouseLeft && Main.mouseLeftRelease)
-					{
-						CalTestHelpers.ShouldDisplayUIs = !CalTestHelpers.ShouldDisplayUIs;
-					}
-				}
-			}
-
-			if (!CalTestHelpers.ShouldDisplayUIs)
-				return;
-			
 			foreach (var button in UIElements)
 			{
-				Rectangle currentRectangleArea = new Rectangle((int)TopLeftLocation.X, (int)yArea, (int)IconBounds.X, (int)IconBounds.Y);
-				Rectangle currentRectangleAreaWorld = new Rectangle((int)(TopLeftLocation.X + Main.screenPosition.X), (int)(yArea + Main.screenPosition.Y), (int)IconBounds.X, (int)IconBounds.Y);
+				Rectangle currentRectangleArea = new Rectangle((int)TopLeftLocation.X, (int)top, (int)IconBounds.X, (int)IconBounds.Y);
+				Rectangle currentRectangleAreaWorld = new Rectangle((int)(TopLeftLocation.X + Main.screenPosition.X), (int)(top + Main.screenPosition.Y), (int)IconBounds.X, (int)IconBounds.Y);
 
 				spriteBatch.Draw(categorySlotTexture, currentRectangleArea.TopLeft(), null, Color.White, 0f, Vector2.Zero, UIScale, SpriteEffects.None, 0f);
 
@@ -132,8 +128,35 @@ namespace CalTestHelpers.UI
 						button.OnClick();
 					}
 				}
-				yArea += IconBounds.Y;
+				top += IconBounds.Y;
 			}
+		}
+
+		public void Draw(SpriteBatch spriteBatch)
+		{
+			float top = TopLeftLocation.Y;
+			if (GetType() == typeof(GrandUIRenderer))
+			{
+				Texture2D toggleIcon = ModContent.GetTexture("CalTestHelpers/UI/GrandUIToggle");
+				Rectangle currentRectangleArea = new Rectangle((int)TopLeftLocation.X, (int)(top - 44 * ResolutionRatio), (int)IconBounds.X, (int)IconBounds.Y);
+				Rectangle currentRectangleAreaWorld = new Rectangle((int)(TopLeftLocation.X + Main.screenPosition.X), (int)(currentRectangleArea.Y + Main.screenPosition.Y), (int)IconBounds.X, (int)IconBounds.Y);
+				spriteBatch.Draw(toggleIcon, currentRectangleArea.Center(), null, Color.White, 0f, toggleIcon.Size() * 0.5f, ResolutionRatio * 0.6f, SpriteEffects.None, 0f);
+
+				if (CalamityUtils.MouseHitbox.Intersects(currentRectangleAreaWorld))
+				{
+					// Activate the event if the button is pressed.
+					Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
+					if (Main.mouseLeft && Main.mouseLeftRelease)
+					{
+						CalTestHelpers.ShouldDisplayUIs = !CalTestHelpers.ShouldDisplayUIs;
+					}
+				}
+			}
+
+			if (!CalTestHelpers.ShouldDisplayUIs)
+				return;
+
+			DrawElements(spriteBatch, top);
 		}
 	}
 }

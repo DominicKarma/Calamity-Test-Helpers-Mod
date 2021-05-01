@@ -1,4 +1,6 @@
 using CalTestHelpers.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,25 +12,46 @@ namespace CalTestHelpers
 	{
 		public static Mod Calamity = null;
 		public static bool ShouldDisplayUIs = false;
-		public static GrandUIRender UltimateUI = new GrandUIRender();
+		public static GrandUIRenderer UltimateUI = new GrandUIRenderer();
 		public static BossDeathUIRenderer BossUIRender = new BossDeathUIRenderer();
 		public static PermanentUpgradeUIRenderer UpgradeUIRenderer = new PermanentUpgradeUIRenderer();
 		public static ProficiencyManipulatorUIRender ProficiencyUIRenderer = new ProficiencyManipulatorUIRender();
+		public static ItemStatEditUIRenderer ItemEditerUIRenderer = new ItemStatEditUIRenderer();
+		public static ProjectileStatEditUIRenderer ProjectileEditerUIRenderer = new ProjectileStatEditUIRenderer();
 		public static List<SpecialUIElement> SecondaryUIElements = new List<SpecialUIElement>();
 
-		public static GrandUIRender SecondaryUIToDisplay;
+		public static GrandUIRenderer SecondaryUIToDisplay;
 
 		public static ModHotKey ToggleUIsHotkey;
+		public static int GlobalTickTimer { get; internal set; }
+
+		internal static bool HaveAnyStatManipulationsBeenDone = false;
+		internal static bool HasDonePostLoading = false;
 		public override void Load()
 		{
 			ToggleUIsHotkey = RegisterHotKey("Toggle Test UIs", "Q");
 			Calamity = ModLoader.GetMod("CalamityMod");
+			ILEdits.Load();
+		}
+
+		public override void PostUpdateEverything()
+		{
+			GlobalTickTimer++;
+			if (HasDonePostLoading)
+				return;
+
+			ItemOverrideCache.Load();
+			ProjectileOverrideCache.Load();
+			HasDonePostLoading = true;
 		}
 
 		public override void Unload()
 		{
 			ToggleUIsHotkey = null;
 			Calamity = null;
+			ILEdits.Unload();
+			ProjectileOverrideCache.Unload();
+			ItemOverrideCache.Unload();
 		}
 
 		public override object Call(params object[] args)
@@ -58,6 +81,16 @@ namespace CalTestHelpers
 						UltimateUI.Draw(Main.spriteBatch);
 						if (SecondaryUIToDisplay != null)
 							SecondaryUIToDisplay.Draw(Main.spriteBatch);
+					}
+
+					// Draw a gear at the bottom of the screen if any stat manipulations have been done
+					// This is done to prevent cheating by nohitters (who use this mod).
+					// If you attempt to remove this behavior and do something like this, I am not responsible.
+					if (HaveAnyStatManipulationsBeenDone)
+					{
+						Texture2D gearTexture = ModContent.GetTexture("CalTestHelpers/UI/Gear");
+						Vector2 gearDrawPosition = new Vector2(Main.screenWidth - 400f, Main.screenHeight - 60f);
+						Main.spriteBatch.Draw(gearTexture, gearDrawPosition, null, Color.Cyan, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 					}
 					return true;
 				}, InterfaceScaleType.UI));
